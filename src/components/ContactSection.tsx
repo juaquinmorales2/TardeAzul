@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 }
+};
 
 const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +21,19 @@ const ContactSection: React.FC = () => {
     success: boolean;
     message: string;
   } | null>(null);
-  
+
+  // Hook para detectar si el título está visible en pantalla
+  const { ref: headerRef, inView: headerInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2
+  });
+
+  // Hook para el grid principal (contact info + form)
+  const { ref: gridRef, inView: gridInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2
+  });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -25,14 +44,12 @@ const ContactSection: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simulate form submission
     setFormStatus({
       submitted: true,
       success: true,
       message: '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.'
     });
     
-    // Reset form
     setFormData({
       name: '',
       email: '',
@@ -40,7 +57,6 @@ const ContactSection: React.FC = () => {
       subject: ''
     });
     
-    // Clear success message after 5 seconds
     setTimeout(() => {
       setFormStatus(null);
     }, 5000);
@@ -48,65 +64,79 @@ const ContactSection: React.FC = () => {
   
   return (
     <section className="py-20 bg-white" id="contact">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-4 max-w-7xl">
+        
+        {/* Animar el título y texto cuando entren en viewport */}
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="text-center mb-12 px-4 sm:px-6 lg:px-8"
+        >
           <h2 className="text-4xl font-bold text-blue-900 mb-4">Contáctanos</h2>
-          <p className="text-blue-700 max-w-2xl mx-auto">
+          <p className="text-blue-700 max-w-2xl mx-auto text-sm sm:text-base">
             ¿Tienes alguna pregunta o sugerencia? ¿Quieres participar en el programa? Estamos aquí para escucharte.
           </p>
-        </div>
+        </motion.div>
         
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        {/* Animar el grid principal al entrar en viewport */}
+        <motion.div
+          ref={gridRef}
+          initial="hidden"
+          animate={gridInView ? "visible" : "hidden"}
+          variants={containerVariants}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"
+        >
+          {/* Información de contacto */}
           <div>
-            <div className="bg-blue-50 p-8 rounded-lg h-full">
-              <h3 className="text-2xl font-bold text-blue-900 mb-6">Información de Contacto</h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <div className="bg-blue-600 text-white p-3 rounded-full mr-4">
-                    <Phone className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-900 mb-1">Teléfono</h4>
-                    <p className="text-blue-700">+1 (555) 123-4567</p>
-                    <p className="text-blue-700">+1 (555) 987-6543</p>
-                  </div>
-                </div>
+            <div className="bg-blue-50 p-6 sm:p-8 rounded-lg h-full flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-blue-900 mb-6">Información de Contacto</h3>
                 
-                <div className="flex items-start">
-                  <div className="bg-blue-600 text-white p-3 rounded-full mr-4">
-                    <Mail className="h-5 w-5" />
+                <div className="space-y-6">
+                  <div className="flex items-start">
+                    <div className="bg-blue-600 text-white p-3 rounded-full mr-4 shrink-0">
+                      <Phone className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-900 mb-1">Teléfono</h4>
+                      <p className="text-blue-700 leading-tight">+598 94 178 936</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-900 mb-1">Email</h4>
-                    <p className="text-blue-700">info@tardeazul.com</p>
-                    <p className="text-blue-700">benjamin@tardeazul.com</p>
+                  
+                  <div className="flex items-start">
+                    <div className="bg-blue-600 text-white p-3 rounded-full mr-4 shrink-0">
+                      <Mail className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-900 mb-1">Email</h4>
+                      <p className="text-blue-700 leading-tight">info@tardeazul.com</p>
+                      <p className="text-blue-700 leading-tight">benjamin@tardeazul.com</p>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="bg-blue-600 text-white p-3 rounded-full mr-4">
-                    <MapPin className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-900 mb-1">Dirección</h4>
-                    <p className="text-blue-700">
-                      Avenida Siempre Viva 742<br />
-                      Ciudad de Springfield<br />
-                      Código Postal 12345
-                    </p>
+                  
+                  <div className="flex items-start">
+                    <div className="bg-blue-600 text-white p-3 rounded-full mr-4 shrink-0">
+                      <MapPin className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-blue-900 mb-1">Dirección</h4>
+                      <p className="text-blue-700 leading-tight">
+                         Torre Triágulo Brava Parada 2, <br /> Punta del Este, 
+                         <br /> Maldonado, Uruguay
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
               
-              <div className="mt-8">
-                <h4 className="font-semibold text-blue-900 mb-3">Horario de Atención</h4>
-                <p className="text-blue-700">Lunes a Viernes: 9:00 AM - 6:00 PM</p>
-                <p className="text-blue-700">Sábados: 10:00 AM - 2:00 PM</p>
-              </div>
             </div>
           </div>
           
+          {/* Formulario */}
           <div>
             <form onSubmit={handleSubmit} className="space-y-6">
               {formStatus && (
@@ -170,7 +200,7 @@ const ContactSection: React.FC = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   placeholder="Escribe tu mensaje aquí..."
                   required
                 ></textarea>
@@ -178,14 +208,14 @@ const ContactSection: React.FC = () => {
               
               <button 
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center w-full sm:w-auto"
               >
                 Enviar mensaje
                 <Send className="ml-2 h-5 w-5" />
               </button>
             </form>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

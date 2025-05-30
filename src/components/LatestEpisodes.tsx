@@ -1,100 +1,134 @@
 import React from 'react';
-import { Play } from 'lucide-react';
+import { Instagram, Facebook } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-interface Episode {
+interface TeamMember {
   id: number;
-  title: string;
-  date: string;
-  duration: string;
+  name: string;
+  role: string;
   image: string;
-  description: string;
+  bio: string;
+  instagram?: string;
+  facebook?: string;
 }
 
-const LatestEpisodes: React.FC = () => {
-  const episodes: Episode[] = [
+const members: TeamMember[] = [
     {
-      id: 1,
-      title: "Entrevista con Marina Suárez",
-      date: "10 Mayo, 2025",
-      duration: "45 min",
-      image: "https://images.pexels.com/photos/4472279/pexels-photo-4472279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      description: "La reconocida cantautora nos habla de su nuevo álbum y sus próximos proyectos."
-    },
-    {
-      id: 2,
-      title: "Especial música de los 80's",
-      date: "5 Mayo, 2025",
-      duration: "60 min",
-      image: "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      description: "Un recorrido por los éxitos que marcaron una década dorada de la música."
-    },
-    {
-      id: 3,
-      title: "Bandas emergentes locales",
-      date: "28 Abril, 2025",
-      duration: "50 min",
-      image: "https://images.pexels.com/photos/2240771/pexels-photo-2240771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      description: "Descubre las nuevas propuestas musicales que están surgiendo en nuestra ciudad."
-    }
-  ];
-  
+    id: 1,
+    name: 'Benjamín Castro',
+    role: 'Locutor',
+    image: 'https://pbs.twimg.com/profile_images/964144672816943105/TfOing-I_400x400.jpg',
+    bio: '',
+  },
+  {
+    id: 2,
+    name: 'Taiza',
+    role: 'Producción y Co-Producción',
+    image: '',
+    instagram:"",
+    bio: '',
+  },
+  {
+    id: 3,
+    name: 'Jorge Baldano',
+    role: 'Columna - Vida Contemporáneas',
+    image: 'https://uyartistas.uy/wp-content/uploads/2022/10/jorge-bafico-0.jpg',
+    bio: '',
+  },
+  {
+    id: 4,
+    name: 'Juan Pablo Taborda',
+    role: 'Segmento deportivo "Una vuelta al Pasado"',
+    image: 'https://pbs.twimg.com/profile_images/1869144603456086016/Z6wiSpGu_400x400.jpg',
+    bio: '',
+    instagram: 'https://www.instagram.com/tabordajp/?__pwa=1',
+    facebook: 'https://www.facebook.com/juan.p.taborda.3/'
+  },
+  {
+    id: 5,
+    name: 'Maricel Spini',
+    role: 'Editora en Jefe Columna "Ámbito Financiero"',
+    image: 'https://scontent.fmvd4-1.fna.fbcdn.net/v/t39.30808-6/465781962_10234052352761178_8669447156328881990_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=BsBhQLn49XwQ7kNvwFtzbeF&_nc_oc=Adljc1XBxpl3LuziCcRgxkdKMsCD3iMOhXfrmvGL6GJWmqL72IeTbcvBBAqOksVK98naFEh7FzrI-iabFQznnDkF&_nc_zt=23&_nc_ht=scontent.fmvd4-1.fna&_nc_gid=mA6roFYCKP4VOD5ERiK4pg&oh=00_AfJHsQV6A-ZjJOIOx0-5NdtKey2WJN3_Ij-gtlU6beS1dg&oe=683F9B64',
+    instagram:"https://www.instagram.com/maricelspini/?__pwa=1",
+    facebook: 'https://www.facebook.com/maricel.spini',
+    bio: '',
+  },
+  {
+    id: 6,
+    name: 'Mike Grosso',
+    role: 'Columna "Escuela Musical"',
+    image: 'https://via.placeholder.com/400x400?text=Mike+Grosso',
+    bio: '',
+  },
+  {
+    id: 7,
+    name: 'El Matto',
+    role: 'Controles y Musicalización',
+    image: 'https://via.placeholder.com/400x400?text=El+Matto',
+    bio: '',
+  }
+];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const RadioTeamSection: React.FC = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-blue-900 to-black text-white" id="episodes">
+    <section className="py-20 bg-gradient-to-b from-gray-800 to-black text-white" id="team">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Episodios Recientes</h2>
-          <p className="text-blue-300 max-w-2xl mx-auto">
-            Revive los mejores momentos de nuestro programa. Episodios completos disponibles para que no te pierdas nada.
+          <h2 className="text-4xl font-bold mb-4">Conoce a Nuestro Equipo de Radio</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Descubre las voces y mentes que dan vida a tu radio, con contenidos únicos que no querrás perderte.
           </p>
         </div>
-        
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {episodes.map(episode => (
-            <div 
-              key={episode.id} 
-              className="bg-gradient-to-br from-blue-800 to-blue-900 rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-2 group"
+
+        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {members.map(member => (
+            <motion.div
+              key={member.id}
+              className="bg-gray-900 rounded-xl overflow-hidden shadow-lg"
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ scale: 1.03 }}
             >
-              <div className="relative">
-                <img 
-                  src={episode.image} 
-                  alt={episode.title} 
-                  className="w-full h-48 object-cover"
-                />
-                <div className="absolute inset-0 bg-blue-900/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 transform scale-90 group-hover:scale-100 transition-transform duration-300">
-                    <Play className="h-8 w-8" />
-                  </button>
-                </div>
-              </div>
-              
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-full h-72 md:h-96 object-cover"
+              />
+
               <div className="p-6">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-blue-300 text-sm">{episode.date}</span>
-                  <span className="bg-blue-700 text-xs text-white px-2 py-1 rounded">{episode.duration}</span>
+                <h3 className="text-2xl font-semibold mb-2">{member.name}</h3>
+                <span className="text-indigo-400 text-sm font-medium mb-4 block">
+                  {member.role}
+                </span>
+                <p className="text-gray-300 mb-4">{member.bio}</p>
+
+                <div className="flex space-x-4">
+                  {member.instagram && (
+                    <a href={member.instagram} aria-label="Instagram profile" className="hover:text-pink-500 transition-colors">
+                      <Instagram className="w-6 h-6" />
+                    </a>
+                  )}
+                  {member.facebook && (
+                    <a href={member.facebook} aria-label="Facebook profile" className="hover:text-blue-600 transition-colors">
+                      <Facebook className="w-6 h-6" />
+                    </a>
+                  )}
                 </div>
-                
-                <h3 className="text-xl font-bold mb-2">{episode.title}</h3>
-                <p className="text-blue-200 mb-4">{episode.description}</p>
-                
-                <button className="text-blue-300 hover:text-white transition-colors font-medium flex items-center">
-                  Escuchar episodio
-                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                  </svg>
-                </button>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-        
-        <div className="text-center mt-12">
-          <a href="#" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-full transition-colors">
-            Ver todos los episodios
-          </a>
         </div>
       </div>
     </section>
   );
 };
 
-export default LatestEpisodes;
+export default RadioTeamSection;

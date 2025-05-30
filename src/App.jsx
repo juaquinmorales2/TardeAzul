@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import AboutSection from './components/AboutSection';
 import ProgramSchedule from './components/ProgramSchedule';
-import LatestEpisodes from './components/LatestEpisodes';
+import TeamSection from './components/LatestEpisodes';
 import Newsletter from './components/Newsletter';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -25,7 +25,7 @@ function App() {
       <Hero isPlaying={isPlaying} togglePlay={togglePlay} />
       <AboutSection />
       <ProgramSchedule />
-      <LatestEpisodes />
+      <TeamSection />
       <Newsletter />
       <ContactSection />
       <WhatsAppButton/>
