@@ -7,14 +7,26 @@ const Newsletter: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' }); // Activa antes de que esté completamente visible
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email && email.includes('@')) {
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (email && email.includes('@')) {
+    try {
+      const res = await fetch('http://localhost:5000/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      console.log(data.message);
       setSubscribed(true);
       setEmail('');
       setTimeout(() => setSubscribed(false), 5000);
+    } catch (error) {
+      console.error('Error al suscribirse:', error);
     }
-  };
+  }
+};
 
   return (
     <motion.section

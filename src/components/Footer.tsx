@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone } from 'lucide-react';
+import {  Phone } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -16,20 +16,6 @@ const Footer: React.FC = () => {
               Tu compañía perfecta en las tardes, con la mejor música y las conversaciones más interesantes.
             </p>
             
-            <div className="flex space-x-4">
-              <a href="#" className="bg-blue-800 hover:bg-blue-700 p-2 rounded-full transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="bg-blue-800 hover:bg-blue-700 p-2 rounded-full transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="bg-blue-800 hover:bg-blue-700 p-2 rounded-full transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="bg-blue-800 hover:bg-blue-700 p-2 rounded-full transition-colors">
-                <Youtube className="h-5 w-5" />
-              </a>
-            </div>
           </div>
           
           <div>

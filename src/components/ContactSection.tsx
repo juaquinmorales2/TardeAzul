@@ -41,26 +41,35 @@ const ContactSection: React.FC = () => {
     });
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    setFormStatus({
-      submitted: true,
-      success: true,
-      message: '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.'
-    });
-    
-    setFormData({
-      name: '',
-      email: '',
-      message: '',
-      subject: ''
-    });
-    
-    setTimeout(() => {
-      setFormStatus(null);
-    }, 5000);
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+  const response = await fetch('http://localhost:5000/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  });
+
+  if (!response.ok) throw new Error('Error al enviar el formulario');
+
+  setFormStatus({
+    submitted: true,
+    success: true,
+    message: '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.'
+  });
+} catch (error) {
+  setFormStatus({
+    submitted: true,
+    success: false,
+    message: 'Error de red o del servidor.'
+  });
+}
+
+  setTimeout(() => {
+    setFormStatus(null);
+  }, 5000);
+};
   
   return (
     <section className="py-20 bg-white" id="contact">
@@ -113,8 +122,7 @@ const ContactSection: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-blue-900 mb-1">Email</h4>
-                      <p className="text-blue-700 leading-tight">info@tardeazul.com</p>
-                      <p className="text-blue-700 leading-tight">benjamin@tardeazul.com</p>
+                      <p className="text-blue-700 leading-tight">cbenjamincastro@gmail.com</p>
                     </div>
                   </div>
                   
@@ -125,14 +133,15 @@ const ContactSection: React.FC = () => {
                     <div>
                       <h4 className="font-semibold text-blue-900 mb-1">Dirección</h4>
                       <p className="text-blue-700 leading-tight">
-                         Torre Triágulo Brava Parada 2, <br /> Punta del Este, 
-                         <br /> Maldonado, Uruguay
+                         Torre Triágulo Brava Parada 2
+                        <br /> Punta del Este 
+                        <br /> Maldonado, Uruguay
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </div>
           

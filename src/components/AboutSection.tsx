@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import logo93 from '../assets/93.5.webp';
 import benja from '../assets/b5.jpeg';
 
 const sponsorLogos = [
@@ -37,9 +36,6 @@ const AboutSection: React.FC = () => {
             <div className="relative">
               <div className="rounded-lg overflow-hidden shadow-xl">
                 <img src={benja} alt="Benjamin Castro en el estudio" className="w-full h-auto" />
-              </div>
-              <div className="absolute -bottom-6 -right-6 w-20 h-20 sm:w-24 sm:h-24 bg-blue-600 rounded-full flex items-center justify-center shadow-md">
-                <img src={logo93} alt="Logo 93.5" className="w-10 h-10 sm:w-12 sm:h-12" />
               </div>
             </div>
           </motion.div>

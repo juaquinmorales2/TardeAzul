@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Play, Pause, Volume2 } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 import logo93 from '../assets/b13.jpg';
 
 interface HeroProps {
@@ -107,17 +107,22 @@ const Hero: React.FC<HeroProps> = ({ isPlaying, togglePlay }) => {
         />
       </div>
 
-      {/* Canvas de partículas */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-0"></canvas>
+      {/* Capa negra semitransparente adicional */}
+      <div className="absolute inset-0 bg-black/10 z-10"></div>
 
       {/* Oscurecimiento en gradiente */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/70 to-black/80 z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/80 to-black/90 z-10"></div>
 
       {/* Contenido principal */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full text-white">
         <div className="text-center px-6 max-w-4xl mx-auto space-y-8">
           <h1 className="text-5xl md:text-7xl font-bold mb-4 text-white animate-fade-in">
-            <span className="block">Tarde Azul</span>
+            <span className="block">
+              Tarde{' '}
+              <span className="text-blue-500">
+                Azul
+              </span>
+            </span>
             <span className="text-3xl md:text-6xl font-light block mt-2">
               con Benjamin Castro
             </span>
@@ -128,24 +133,28 @@ const Hero: React.FC<HeroProps> = ({ isPlaying, togglePlay }) => {
             conversaciones más interesantes.
           </p>
 
-          <div className="mt-12 flex items-center justify-center">
-            <button
-              onClick={togglePlay}
-              className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full transition duration-300 group"
-            >
-              {isPlaying ? (
-                <>
-                  <Pause className="h-6 w-6 group-hover:scale-110 transition-transform" />
-                  <span>Pausar</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-6 w-6 group-hover:scale-110 transition-transform" />
-                  <span>Escuchar en vivo</span>
-                </>
-              )}
-            </button>
-          </div>
+          <div className="mt-12 flex justify-center">
+  <button
+    onClick={togglePlay}
+    className="flex items-center justify-center gap-2 
+      bg-blue-500 hover:bg-blue-600 text-white 
+      px-6 py-3 text-sm 
+      md:px-8 md:py-4 md:text-base 
+      rounded-full transition duration-300 group"
+  >
+    {isPlaying ? (
+      <>
+        <Pause className="h-5 w-5 md:h-6 md:w-6 group-hover:scale-110 transition-transform" />
+        <span>Pausar</span>
+      </>
+    ) : (
+      <>
+        <Play className="h-5 w-5 md:h-6 md:w-6 group-hover:scale-110 transition-transform" />
+        <span>Escuchar en vivo</span>
+      </>
+    )}
+  </button>
+</div>
 
           <div className="absolute bottom-12 left-0 right-0 flex justify-center">
             <div className="animate-bounce">
