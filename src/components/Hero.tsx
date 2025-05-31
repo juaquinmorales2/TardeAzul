@@ -9,7 +9,6 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ isPlaying, togglePlay }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -97,15 +96,6 @@ const Hero: React.FC<HeroProps> = ({ isPlaying, togglePlay }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.play().catch(err => console.error('Error al reproducir:', err));
-    } else {
-      audioRef.current.pause();
-    }
-  }, [isPlaying]);
-
   return (
     <div className="relative w-full h-screen overflow-hidden">
       {/* Imagen de fondo */}
@@ -144,27 +134,27 @@ const Hero: React.FC<HeroProps> = ({ isPlaying, togglePlay }) => {
           </p>
 
           <div className="mt-12 flex justify-center">
-            <button
-              onClick={togglePlay}
-              className="flex items-center justify-center gap-2 
-                bg-blue-500 hover:bg-blue-600 text-white 
-                px-6 py-3 text-sm 
-                md:px-8 md:py-4 md:text-base 
-                rounded-full transition duration-300 group"
-            >
-              {isPlaying ? (
-                <>
-                  <Pause className="h-5 w-5 md:h-6 md:w-6 group-hover:scale-110 transition-transform" />
-                  <span>Pausar</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-5 w-5 md:h-6 md:w-6 group-hover:scale-110 transition-transform" />
-                  <span>Escuchar en vivo</span>
-                </>
-              )}
-            </button>
-          </div>
+  <button
+    onClick={togglePlay}
+    className="flex items-center justify-center gap-2 
+      bg-blue-500 hover:bg-blue-600 text-white 
+      px-6 py-3 text-sm 
+      md:px-8 md:py-4 md:text-base 
+      rounded-full transition duration-300 group"
+  >
+    {isPlaying ? (
+      <>
+        <Pause className="h-5 w-5 md:h-6 md:w-6 group-hover:scale-110 transition-transform" />
+        <span>Pausar</span>
+      </>
+    ) : (
+      <>
+        <Play className="h-5 w-5 md:h-6 md:w-6 group-hover:scale-110 transition-transform" />
+        <span>Escuchar en vivo</span>
+      </>
+    )}
+  </button>
+</div>
 
           <div className="absolute bottom-12 left-0 right-0 flex justify-center">
             <div className="animate-bounce">
@@ -186,9 +176,6 @@ const Hero: React.FC<HeroProps> = ({ isPlaying, togglePlay }) => {
           </div>
         </div>
       </div>
-
-      {/* Audio de la radio */}
-      <audio ref={audioRef} src="https://icecasthd.net/proxy/azulp/live" preload="auto" />
     </div>
   );
 };
